@@ -13,6 +13,8 @@ var _Home = _interopRequireDefault(require("./Home"));
 
 var _About = _interopRequireDefault(require("./About"));
 
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36,6 +38,20 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  background-color: #aaaaaa;\n  border: 1px solid blue;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Container = _styledComponents["default"].div(_templateObject());
 
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
@@ -74,7 +90,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      window.oppopstate = function (event) {
+      window.onpopstate = function (event) {
         _this2.setState({
           page: event.state
         });
@@ -85,9 +101,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var page = this.state.page;
       var PageComponent = page === 'home' ? _Home["default"] : _About["default"];
-      return /*#__PURE__*/_react["default"].createElement("div", {
-        className: "container"
-      }, /*#__PURE__*/_react["default"].createElement("button", {
+      return /*#__PURE__*/_react["default"].createElement(Container, null, /*#__PURE__*/_react["default"].createElement("button", {
         "data-page": "home",
         onClick: this.onChangePage
       }, "Home"), /*#__PURE__*/_react["default"].createElement("button", {

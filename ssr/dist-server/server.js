@@ -14,6 +14,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var url = _interopRequireWildcard(require("url"));
 
+var _styledComponents = require("styled-components");
+
 var _App = _interopRequireDefault(require("./App"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -33,13 +35,15 @@ app.get('/favicon.ico', function (req, res) {
 app.get('*', function (req, res) {
   var parsedUrl = url.parse(req.url, true);
   var page = parsedUrl.pathname !== '/' ? parsedUrl.pathname.substr(1) : 'home';
+  var sheet = new _styledComponents.ServerStyleSheet();
   var renderString = (0, _server.renderToString)( /*#__PURE__*/_react["default"].createElement(_App["default"], {
     page: page
   }));
+  var styles = sheet.getStyleTags();
   var initialData = {
     page: page
   };
-  var result = html.replace('<div id="root"></div>', "<div id=\"root\">".concat(renderString, "</div>")).replace('__DATA_FROM_SERVER__', JSON.stringify(initialData));
+  var result = html.replace('<div id="root"></div>', "<div id=\"root\">".concat(renderString, "</div>")).replace('__DATA_FROM_SERVER__', JSON.stringify(initialData)).replace('__STYLE_FROM_SERVER__', styles);
   res.send(result);
 });
 app.listen(3000);
