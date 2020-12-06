@@ -8,6 +8,8 @@ var _App = _interopRequireDefault(require("./App"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+var initialData = window.__INITIAL_DATA__;
+
 _reactDom["default"].hydrate( /*#__PURE__*/_react["default"].createElement(_App["default"], {
-  page: "home"
+  page: initialData.page
 }), document.getElementById('root'));
