@@ -18,7 +18,7 @@ app.get('*', (req, res ) => {
   const parsedUrl = url.parse(req.url, true);
   const page = parsedUrl.pathname !== '/' ? parsedUrl.pathname.substr(1) : 'home';
   const sheet = new ServerStyleSheet();
-  const renderString = renderToString(<App page={page} />);
+  const renderString = renderToString(sheet.collectStyles(<App page={page} />));
   const styles = sheet.getStyleTags();
   const initialData = {page};
   const result = html.replace(

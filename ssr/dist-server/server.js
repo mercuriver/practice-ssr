@@ -36,9 +36,9 @@ app.get('*', function (req, res) {
   var parsedUrl = url.parse(req.url, true);
   var page = parsedUrl.pathname !== '/' ? parsedUrl.pathname.substr(1) : 'home';
   var sheet = new _styledComponents.ServerStyleSheet();
-  var renderString = (0, _server.renderToString)( /*#__PURE__*/_react["default"].createElement(_App["default"], {
+  var renderString = (0, _server.renderToString)(sheet.collectStyles( /*#__PURE__*/_react["default"].createElement(_App["default"], {
     page: page
-  }));
+  })));
   var styles = sheet.getStyleTags();
   var initialData = {
     page: page
