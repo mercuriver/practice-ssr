@@ -6,12 +6,19 @@ import React from 'react';
 import * as url from "url";
 import { ServerStyleSheet } from 'styled-components';
 import App from './App';
+import { renderPage, prerenderPages } from './common';
 
 const app = express();
-const html = fs.readFileSync(
-  path.resolve(__dirname, '../dist/index.html'),
-  'utf8',
-);
+
+const prerenderHtml = {};
+for (const page of prerenderPages) {
+  const pageHtml = fs.readFileSync(
+    path.resolve(__dirname, `../dist/${page}.html`),
+    'utf8'
+  );
+  prerenderHtml[page] = pageHtml;
+}
+
 app.use('/dist', express.static('dist'));
 app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 app.get('*', (req, res ) => {
@@ -21,13 +28,13 @@ app.get('*', (req, res ) => {
   const renderString = renderToString(sheet.collectStyles(<App page={page} />));
   const styles = sheet.getStyleTags();
   const initialData = {page};
-  const result = html.replace(
-    '<div id="root"></div>',
-    `<div id="root">${renderString}</div>`,
-  ).replace(
+
+  const pageHtml = prerenderPages.includes(page) 
+    ? prerenderHtml[page]
+    : renderPage(page);
+
+  const result = pageHtml.replace( 
     '__DATA_FROM_SERVER__', JSON.stringify(initialData)
-  ).replace(
-    '__STYLE_FROM_SERVER__', styles
   );
   res.send(result);
 });

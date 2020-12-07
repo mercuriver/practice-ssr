@@ -9,14 +9,24 @@ const Container = styled.div`
   border: 1px solid blue;
 `;
 
+function fetchUsername() {
+  const usernames = ['mike', 'june', 'jamie'];
+  return new Promise(resolve => {
+    const username = usernames[Math.floor(Math.random() * 3)];
+    setTimeout(()=>resolve(username), 100);
+  })
+}
+
 class App extends React.Component {
   state = {
     page: this.props.page,
+    username: null,
   };
   componentDidMount() {
     window.onpopstate = event => {
       this.setState({ page: event.state });
     };
+    fetchUsername().then(username => this.setState({username}));
   }
   onChangePage = e => {
     const page = e.target.dataset.page;
@@ -24,7 +34,7 @@ class App extends React.Component {
     this.setState({ page });
   };
   render() {
-    const { page } = this.state;
+    const { page, username } = this.state;
     const PageComponent = page === 'home' ? Home : About;
     return (
       <Container>
@@ -34,7 +44,7 @@ class App extends React.Component {
         <button data-page="about" onClick={this.onChangePage}>
           About
         </button>
-        <PageComponent />
+        <PageComponent username={username} />
         <img src={Icon} />
       </Container>
     );
